@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flat Mar Doce Lar</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        :root {
+            --primary: #7FB3D5;
+            --accent: #FF7F50;
+            --dark: #2C3E50;
+            --light: #F8F9FA;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            scroll-behavior: smooth;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('fundo.jpeg');
+            background-size: cover;
+            background-position: center;
+            height: 90vh;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #5d9bc3;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: #e6be1a;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #ccaa17;
+            transform: translateY(-2px);
+        }
+        
+        .gallery-img {
+            height: 250px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .amenity-icon {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .testimonial-card {
+            background-color: var(--light);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25D366;
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+        
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            bottom: -10px;
+            left: 0;
+            background-color: var(--accent);
+        }
+        
+        .calendar-container {
+            background-color: rgba(127, 179, 213, 0.1);
+            border-radius: 10px;
+        }
+        
+        .flatpickr-calendar {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+        }
+        
+        .flatpickr-day.selected {
+            background-color: var(--primary) !important;
+            border-color: var(--primary) !important;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                height: 70vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="fixed w-full bg-white shadow-md z-50">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#home" class="flex items-center space-x-2">
+                <img src="Logo.png" alt="Flat Mar Doce Lar Logo" class="h-14 w-auto">
+                <span class="text-2xl font-bold text-[#7FB3D5]">Flat Mar Doce Lar</span>
+            </a>
+            
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="nav-link font-medium">Início</a>
+                <a href="#gallery" class="nav-link font-medium">Galeria</a>
+                <a href="#amenities" class="nav-link font-medium">Comodidades</a>
+                <a href="#booking" class="nav-link font-medium">Reservas</a>
+                <a href="#about" class="nav-link font-medium">Sobre</a>
+                <a href="#contact" class="nav-link font-medium">Contato</a>
+            </div>
+            
+            <div class="md:hidden">
+                <button id="menu-toggle" class="focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white w-full py-4 px-4 shadow-md">
+        <div class="flex flex-col space-y-4">
+            <a href="#home" class="font-medium">Início</a>
+            <a href="#gallery" class="font-medium">Galeria</a>
+            <a href="#amenities" class="font-medium">Comodidades</a>
+            <a href="#booking" class="font-medium">Reservas</a>
+            <a href="#about" class="font-medium">Sobre</a>
+            <a href="#contact" class="font-medium">Contato</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section flex items-center justify-center pt-16">
+        <div class="container mx-auto px-4 text-center">
+            <div class="bg-black bg-opacity-40 p-8 rounded-lg inline-block">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">Flat Mar Doce Lar</h1>
+                <p class="text-xl md:text-2xl text-white mb-8 italic">Seu lar temporário com alma de casa</p>
+                <div class="flex flex-col md:flex-row justify-center gap-4">
+                    <a href="#booking" class="btn-primary text-white font-medium py-3 px-6 rounded-full text-lg">Reservar Agora</a>
+                    <a href="#gallery" class="btn-secondary text-white font-medium py-3 px-6 rounded-full text-lg">Ver Fotos</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center section-title">Conheça Nosso Espaço</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="Sala.jpeg" alt="Sala de estar" class="gallery-img w-full">
+                    <div class="p-4 bg-white">
+                        <h3 class="font-semibold text-lg">Sala de Estar Aconchegante</h3>
+                        <p class="text-gray-600">Espaço confortável para relaxar e aproveitar momentos especiais.</p>
+                    </div>
+                </div>
+                
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="Quarto 1.jpeg" alt="Quarto principal" class="gallery-img w-full">
+                    <div class="p-4 bg-white">
+                        <h3 class="font-semibold text-lg">Quarto Principal</h3>
+                        <p class="text-gray-600">Cama confortável e ambiente climatizado para noites de sono perfeitas.</p>
+                    </div>
+                </div>
+                
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="Quarto 2.jpeg" alt="Cozinha" class="gallery-img w-full">
+                    <div class="p-4 bg-white">
+                        <h3 class="font-semibold text-lg">Segundo Quarto</h3>
+                        <p class="text-gray-600">Cama confortável e ambiente climatizado para noites de sono perfeitas.</p>
+                    </div>
+                </div>
+                
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="Janta.jpeg" alt="Banheiro" class="gallery-img w-full">
+                    <div class="p-4 bg-white">
+                        <h3 class="font-semibold text-lg">Área de Jantar</h3>
+                        <p class="text-gray-600">Mesa confortável para refeições em família ou com amigos.</p>
+                    </div>
+                </div>
+                
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="Fundo.jpeg" alt="Varanda" class="gallery-img w-full">
+                    <div class="p-4 bg-white">
+                        <h3 class="font-semibold text-lg">Varanda com Vista</h3>
+                        <p class="text-gray-600">Espaço perfeito para apreciar o pôr do sol com uma bebida.</p>
+                    </div>
+                </div>
+                
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="Cozinha.jpeg" alt="Área de jantar" class="gallery-img w-full">
+                    <div class="p-4 bg-white">
+                        <h3 class="font-semibold text-lg">Cozinha Completa</h3>
+                        <p class="text-gray-600">Equipada com todos os utensílios para preparar suas refeições.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <button id="view-more-photos" class="btn-primary text-white font-medium py-2 px-6 rounded-full">Ver Mais Fotos</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Amenities Section -->
+    <section id="amenities" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center section-title">Comodidades</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 text-center">
+                <div class="p-4">
+                    <i class="fas fa-wifi amenity-icon"></i>
+                    <h3 class="font-semibold text-lg">Wi-Fi Gratuito</h3>
+                    <p class="text-gray-600">Conexão de alta velocidade em todos os ambientes.</p>
+                </div>
+                
+                <div class="p-4">
+                    <i class="fas fa-snowflake amenity-icon"></i>
+                    <h3 class="font-semibold text-lg">Ar-Condicionado</h3>
+                    <p class="text-gray-600">Controle de temperatura para seu conforto.</p>
+                </div>
+                
+                <div class="p-4">
+                    <i class="fas fa-tv amenity-icon"></i>
+                    <h3 class="font-semibold text-lg">Smart TV</h3>
+                    <p class="text-gray-600">Com Netflix e outros serviços de streaming.</p>
+                </div>
+                
+                <div class="p-4">
+                    <i class="fas fa-utensils amenity-icon"></i>
+                    <h3 class="font-semibold text-lg">Cozinha Equipada</h3>
+                    <p class="text-gray-600">Todos os utensílios para preparar suas refeições.</p>
+                </div>
+                
+                <div class="p-4">
+                    <i class="fas fa-parking amenity-icon"></i>
+                    <h3 class="font-semibold text-lg">Estacionamento</h3>
+                    <p class="text-gray-600">Vaga segura para seu veículo.</p>
+                </div>
+                
+                <div class="p-4">
+                    <i class="fas fa-swimming-pool amenity-icon"></i>
+                    <h3 class="font-semibold text-lg">Piscina</h3>
+                    <p class="text-gray-600">Acesso à piscina do condomínio.</p>
+                </div>
+                
+                <div class="p-4">
+                    <i class="fas fa-dumbbell amenity-icon"></i>
+                    <h3 class="font-semibold text-lg">Academia</h3>
+                    <p class="text-gray-600">Equipamentos modernos para seus exercícios.</p>
+                </div>
+                
+                <div class="p-4">
+                    <i class="fas fa-shield-alt amenity-icon"></i>
+                    <h3 class="font-semibold text-lg">Segurança 24h</h3>
+                    <p class="text-gray-600">Portaria e monitoramento constante.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center section-title">Faça sua Reserva</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div class="calendar-container p-6 rounded-lg">
+                    <h3 class="text-2xl font-semibold mb-6">Verifique a Disponibilidade</h3>
+                    <div id="booking-calendar" class="mb-6"></div>
+                    <p class="text-gray-600 mb-4"><i class="fas fa-circle text-[#7FB3D5] mr-2"></i> Disponível</p>
+                    <p class="text-gray-600"><i class="fas fa-circle text-gray-300 mr-2"></i> Ocupado</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold mb-6">Formulário de Reserva</h3>
+                    <form id="booking-form">
+                        <div class="mb-4">
+                            <label for="name" class="block text-gray-700 mb-2">Nome Completo</label>
+                            <input type="text" id="name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7FB3D5]" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="email" class="block text-gray-700 mb-2">E-mail</label>
+                            <input type="email" id="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7FB3D5]" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="phone" class="block text-gray-700 mb-2">Telefone</label>
+                            <input type="tel" id="phone" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7FB3D5]" required>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label for="check-in" class="block text-gray-700 mb-2">Check-in</label>
+                                <input type="text" id="check-in" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7FB3D5]" placeholder="Selecione a data" required>
+                            </div>
+                            
+                            <div>
+                                <label for="check-out" class="block text-gray-700 mb-2">Check-out</label>
+                                <input type="text" id="check-out" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7FB3D5]" placeholder="Selecione a data" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="guests" class="block text-gray-700 mb-2">Número de Hóspedes</label>
+                            <select id="guests" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7FB3D5]" required>
+                                <option value="1">1 pessoa</option>
+                                <option value="2">2 pessoas</option>
+                                <option value="3">3 pessoas</option>
+                                <option value="4">4 pessoas</option>
+                                <option value="5">5 pessoas</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-700 mb-2">Mensagem (opcional)</label>
+                            <textarea id="message" rows="4" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7FB3D5]"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary text-white font-medium py-3 px-6 rounded-full w-full text-lg">Solicitar Reserva</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center section-title">O que Dizem Nossos Hóspedes</h2>
+            
+            <div class="testimonial-slider relative">
+                <div class="testimonial-container overflow-hidden">
+                    <div class="testimonial-track flex transition-transform duration-500" id="testimonial-track">
+                        <!-- Testimonial 1 -->
+                        <div class="testimonial-slide w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4">
+                            <div class="testimonial-card p-6 rounded-lg shadow-md h-full">
+                                <div class="flex items-center mb-4">
+                                    <div class="text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600 italic mb-6">"Lugar incrível! Nos sentimos realmente em casa. O apartamento é muito aconchegante e tem tudo o que precisamos. A localização é perfeita e os anfitriões são extremamente atenciosos. Voltaremos com certeza!"</p>
+                                <div class="flex items-center">
+                                    <div class="bg-[#7FB3D5] rounded-full w-12 h-12 flex items-center justify-center text-white font-bold text-xl">M</div>
+                                    <div class="ml-4">
+                                        <h4 class="font-semibold">Mariana Silva</h4>
+                                        <p class="text-gray-500 text-sm">Dezembro 2023</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Testimonial 2 -->
+                        <div class="testimonial-slide w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4">
+                            <div class="testimonial-card p-6 rounded-lg shadow-md h-full">
+                                <div class="flex items-center mb-4">
+                                    <div class="text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600 italic mb-6">"Experiência maravilhosa! O flat é exatamente como nas fotos, muito limpo e bem decorado. A vista da varanda é espetacular e o atendimento foi impecável. Recomendo para quem busca conforto e tranquilidade."</p>
+                                <div class="flex items-center">
+                                    <div class="bg-[#F5DEB3] rounded-full w-12 h-12 flex items-center justify-center text-[#2C3E50] font-bold text-xl">R</div>
+                                    <div class="ml-4">
+                                        <h4 class="font-semibold">Rafael Oliveira</h4>
+                                        <p class="text-gray-500 text-sm">Janeiro 2024</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Testimonial 3 -->
+                        <div class="testimonial-slide w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4">
+                            <div class="testimonial-card p-6 rounded-lg shadow-md h-full">
+                                <div class="flex items-center mb-4">
+                                    <div class="text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600 italic mb-6">"Ficamos hospedados por uma semana e foi perfeito! O flat é super bem equipado, cama confortável e cozinha completa. A localização é excelente, perto de restaurantes e da praia. Os anfitriões foram muito atenciosos e nos deram ótimas dicas."</p>
+                                <div class="flex items-center">
+                                    <div class="bg-[#FF7F50] rounded-full w-12 h-12 flex items-center justify-center text-white font-bold text-xl">C</div>
+                                    <div class="ml-4">
+                                        <h4 class="font-semibold">Carolina e Pedro</h4>
+                                        <p class="text-gray-500 text-sm">Fevereiro 2024</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="testimonial-prev absolute top-1/2 -left-4 transform -translate-y-1/2 bg-white rounded-full w-10 h-10 shadow-md flex items-center justify-center focus:outline-none z-10">
+                    <i class="fas fa-chevron-left text-[#7FB3D5]"></i>
+                </button>
+                
+                <button class="testimonial-next absolute top-1/2 -right-4 transform -translate-y-1/2 bg-white rounded-full w-10 h-10 shadow-md flex items-center justify-center focus:outline-none z-10">
+                    <i class="fas fa-chevron-right text-[#7FB3D5]"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center section-title">Localização</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                <div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4">Localização Privilegiada</h3>
+                        <p class="text-gray-600 mb-6">Nosso flat está localizado em uma área tranquila e segura, a apenas:</p>
+                        
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-start">
+                                <i class="fas fa-umbrella-beach text-[#7FB3D5] mt-1 mr-3"></i>
+                                <span>5 minutos a pé da praia</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-utensils text-[#7FB3D5] mt-1 mr-3"></i>
+                                <span>Diversos restaurantes e cafés em um raio de 500m</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-shopping-bag text-[#7FB3D5] mt-1 mr-3"></i>
+                                <span>Shopping center a 10 minutos de carro</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-bus text-[#7FB3D5] mt-1 mr-3"></i>
+                                <span>Ponto de ônibus a 200m</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-hospital text-[#7FB3D5] mt-1 mr-3"></i>
+                                <span>Hospital e farmácias próximos</span>
+                            </li>
+                        </ul>
+                        
+                        <p class="text-gray-600">O bairro é seguro para caminhadas a qualquer hora do dia e oferece fácil acesso às principais atrações da cidade.</p>
+                    </div>
+                </div>
+                
+                <div class="h-96 rounded-lg overflow-hidden shadow-md">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d252834.98898995214!2d-35.05002827975235!3d-8.045579622705288!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7ab412c065cdd29%3A0x404efd7325d9bca9!2zQ29uZG9tw61uaW8gR2F2w7Rh!5e0!3m2!1spt-BR!2sbr!4v1748949751806!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center section-title">Sobre o Flat Mar Doce Lar</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                <div class="order-2 lg:order-1">
+                    <h3 class="text-2xl font-semibold mb-4">Nossa História</h3>
+                    <p class="text-gray-600 mb-6">O Flat Mar Doce Lar nasceu do sonho de criar um espaço que combinasse o conforto de um lar com a praticidade de uma hospedagem. Fundado em 2020 por um casal apaixonado por viagens, nosso objetivo é oferecer uma experiência única e personalizada.</p>
+                    
+                    <p class="text-gray-600 mb-6">Diferente das grandes redes hoteleiras e plataformas impessoais, aqui você encontra um atendimento próximo e cuidadoso. Cada detalhe foi pensado para que você se sinta verdadeiramente em casa, com o conforto e a tranquilidade que merece.</p>
+                    
+                    <p class="text-gray-600 mb-6">Acreditamos que viajar não é apenas conhecer novos lugares, mas também sentir-se acolhido e seguro. Por isso, nos dedicamos a criar um ambiente que transmita essa sensação desde o primeiro contato.</p>
+                    
+                    <div class="flex items-center space-x-4">
+                        <a href="#booking" class="btn-primary text-white font-medium py-2 px-6 rounded-full">Faça sua Reserva</a>
+                        <a href="#contact" class="text-[#7FB3D5] font-medium hover:underline">Entre em Contato</a>
+                    </div>
+                </div>
+                
+                <div class="order-1 lg:order-2">
+                    <div class="relative h-96 rounded-lg overflow-hidden shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1623050804066-42bcedb4e81d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Sobre o Mar Doce Lar" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-30"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Policies Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center section-title">Políticas e Informações</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-clock text-2xl text-[#7FB3D5] mr-4"></i>
+                        <h3 class="text-xl font-semibold">Horários</h3>
+                    </div>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex justify-between">
+                            <span>Check-in:</span>
+                            <span class="font-medium">14:00 - 20:00</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Check-out:</span>
+                            <span class="font-medium">até 12:00</span>
+                        </li>
+                        <li class="mt-4">
+                            <span class="text-sm">* Horários flexíveis mediante consulta prévia</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-ban text-2xl text-[#7FB3D5] mr-4"></i>
+                        <h3 class="text-xl font-semibold">Política de Cancelamento</h3>
+                    </div>
+                    <ul class="space-y-2 text-gray-600">
+                        <li>Cancelamento gratuito até 7 dias antes do check-in</li>
+                        <li>50% de reembolso para cancelamentos até 3 dias antes</li>
+                        <li>Sem reembolso para cancelamentos com menos de 3 dias de antecedência</li>
+                        <li class="mt-4">
+                            <span class="text-sm">* Situações excepcionais serão analisadas individualmente</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-info-circle text-2xl text-[#7FB3D5] mr-4"></i>
+                        <h3 class="text-xl font-semibold">Regras da Casa</h3>
+                    </div>
+                    <ul class="space-y-2 text-gray-600">
+                        <li>Não é permitido fumar no apartamento</li>
+                        <li>Não são permitidos animais de estimação</li>
+                        <li>Respeitar o silêncio entre 22h e 8h</li>
+                        <li>Número máximo de hóspedes: 5 pessoas</li>
+                        <li>Não são permitidas festas ou eventos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center section-title">Entre em Contato</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-6">Fale Conosco</h3>
+                        
+                        <form id="contact-form">
+                            <div class="mb-4">
+                                <label for="contact-name" class="block text-gray-700 mb-2">Nome</label>
+                                <input type="text" id="contact-name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7FB3D5]" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="contact-email" class="block text-gray-700 mb-2">E-mail</label>
+                                <input type="email" id="contact-email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7FB3D5]" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="contact-subject" class="block text-gray-700 mb-2">Assunto</label>
+                                <input type="text" id="contact-subject" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7FB3D5]" required>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="contact-message" class="block text-gray-700 mb-2">Mensagem</label>
+                                <textarea id="contact-message" rows="5" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7FB3D5]" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary text-white font-medium py-3 px-6 rounded-full w-full text-lg">Enviar Mensagem</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md h-full">
+                        <h3 class="text-2xl font-semibold mb-6">Informações de Contato</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="bg-[#7FB3D5] rounded-full w-10 h-10 flex items-center justify-center text-white shrink-0 mt-1">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-semibold text-lg">Telefone</h4>
+                                    <p class="text-gray-600">(21) 98765-4321</p>
+                                    <p class="text-gray-600">(21) 3456-7890</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-[#7FB3D5] rounded-full w-10 h-10 flex items-center justify-center text-white shrink-0 mt-1">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-semibold text-lg">E-mail</h4>
+                                    <p class="text-gray-600">contato@mardocelar.com.br</p>
+                                    <p class="text-gray-600">reservas@mardocelar.com.br</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-[#7FB3D5] rounded-full w-10 h-10 flex items-center justify-center text-white shrink-0 mt-1">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-semibold text-lg">Endereço</h4>
+                                    <p class="text-gray-600">Av. Atlântica, 1500 - Copacabana</p>
+                                    <p class="text-gray-600">Rio de Janeiro - RJ, 22021-000</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-[#7FB3D5] rounded-full w-10 h-10 flex items-center justify-center text-white shrink-0 mt-1">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-semibold text-lg">Horário de Atendimento</h4>
+                                    <p class="text-gray-600">Segunda a Sexta: 9h às 18h</p>
+                                    <p class="text-gray-600">Sábado: 9h às 14h</p>
+                                    <p class="text-gray-600">Emergências: 24h via WhatsApp</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h4 class="font-semibold text-lg mb-4">Siga-nos</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="bg-[#3b5998] text-white w-10 h-10 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="bg-[#1da1f2] text-white w-10 h-10 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="bg-[#c32aa3] text-white w-10 h-10 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="bg-[#25d366] text-white w-10 h-10 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#2C3E50] text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Mar Doce Lar</h3>
+                    <p class="mb-6">Seu lar temporário com alma de casa. Oferecemos uma experiência única de hospedagem, com conforto, segurança e um toque especial de carinho.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-white hover:text-[#7FB3D5] transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-white hover:text-[#7FB3D5] transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-white hover:text-[#7FB3D5] transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-white hover:text-[#7FB3D5] transition-colors">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-xl font-semibold mb-6">Links Rápidos</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="hover:text-[#7FB3D5] transition-colors">Início</a></li>
+                        <li><a href="#gallery" class="hover:text-[#7FB3D5] transition-colors">Galeria</a></li>
+                        <li><a href="#amenities" class="hover:text-[#7FB3D5] transition-colors">Comodidades</a></li>
+                        <li><a href="#booking" class="hover:text-[#7FB3D5] transition-colors">Reservas</a></li>
+                        <li><a href="#about" class="hover:text-[#7FB3D5] transition-colors">Sobre</a></li>
+                        <li><a href="#contact" class="hover:text-[#7FB3D5] transition-colors">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-xl font-semibold mb-6">Políticas</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="hover:text-[#7FB3D5] transition-colors">Termos e Condições</a></li>
+                        <li><a href="#" class="hover:text-[#7FB3D5] transition-colors">Política de Privacidade</a></li>
+                        <li><a href="#" class="hover:text-[#7FB3D5] transition-colors">Política de Cancelamento</a></li>
+                        <li><a href="#" class="hover:text-[#7FB3D5] transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-xl font-semibold mb-6">Newsletter</h4>
+                    <p class="mb-4">Inscreva-se para receber nossas promoções e novidades.</p>
+                    <form id="newsletter-form" class="flex flex-col space-y-4">
+                        <input type="email" placeholder="Seu e-mail" class="px-4 py-2 rounded-lg focus:outline-none text-gray-800">
+                        <button type="submit" class="bg-[#7FB3D5] text-white py-2 px-4 rounded-lg hover:bg-[#5d9bc3] transition-colors">Inscrever-se</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-600 mt-12 pt-8 text-center">
+                <p>&copy; 2024 Mar Doce Lar. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/5521987654321" target="_blank" class="whatsapp-float">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+        
+        // Testimonial Slider
+        const testimonialTrack = document.getElementById('testimonial-track');
+        const testimonialSlides = document.querySelectorAll('.testimonial-slide');
+        const prevButton = document.querySelector('.testimonial-prev');
+        const nextButton = document.querySelector('.testimonial-next');
+        let currentIndex = 0;
+        
+        function updateSliderPosition() {
+            let slideWidth = testimonialSlides[0].offsetWidth;
+            testimonialTrack.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+        }
+        
+        function moveToSlide(index) {
+            const maxIndex = testimonialSlides.length - 1;
+            currentIndex = Math.max(0, Math.min(index, maxIndex));
+            updateSliderPosition();
+        }
+        
+        prevButton.addEventListener('click', () => {
+            moveToSlide(currentIndex - 1);
+        });
+        
+        nextButton.addEventListener('click', () => {
+            moveToSlide(currentIndex + 1);
+        });
+        
+        window.addEventListener('resize', updateSliderPosition);
+        
+        // Initialize Flatpickr for Date Pickers
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample unavailable dates (for demo purposes)
+            const unavailableDates = [
+                "2024-04-10", "2024-04-11", "2024-04-12",
+                "2024-04-20", "2024-04-21",
+                "2024-05-01", "2024-05-02", "2024-05-03"
+            ];
+            
+            // Initialize booking calendar
+            flatpickr("#booking-calendar", {
+                inline: true,
+                mode: "range",
+                minDate: "today",
+                disable: unavailableDates,
+                dateFormat: "Y-m-d",
+                locale: "pt",
+                onChange: function(selectedDates, dateStr) {
+                    if (selectedDates.length === 2) {
+                        document.getElementById('check-in').value = selectedDates[0].toISOString().split('T')[0];
+                        document.getElementById('check-out').value = selectedDates[1].toISOString().split('T')[0];
+                    }
+                }
+            });
+            
+            // Initialize check-in date picker
+            const checkInPicker = flatpickr("#check-in", {
+                minDate: "today",
+                disable: unavailableDates,
+                dateFormat: "Y-m-d",
+                locale: "pt",
+                onChange: function(selectedDates, dateStr) {
+                    // Update check-out min date
+                    checkOutPicker.set('minDate', dateStr);
+                }
+            });
+            
+            // Initialize check-out date picker
+            const checkOutPicker = flatpickr("#check-out", {
+                minDate: "today",
+                disable: unavailableDates,
+                dateFormat: "Y-m-d",
+                locale: "pt"
+            });
+        });
+        
+        // Form Validations and Submissions
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        function validatePhone(phone) {
+            const re = /^\(\d{2}\) \d{5}-\d{4}$/;
+            return re.test(phone);
+        }
+        
+        // Format phone number as user types
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                value = '(' + value.substring(0, 2) + ') ' + value.substring(2, 7) + '-' + value.substring(7, 11);
+            }
+            e.target.value = value;
+        });
+        
+        document.getElementById('booking-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const checkIn = document.getElementById('check-in').value;
+            const checkOut = document.getElementById('check-out').value;
+            
+            if (!name || !email || !phone || !checkIn || !checkOut) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                alert('Por favor, insira um e-mail válido.');
+                return;
+            }
+            
+            if (!validatePhone(phone)) {
+                alert('Por favor, insira um telefone válido no formato (99) 99999-9999');
+                return;
+            }
+            
+            // Simulate form submission
+            alert('Obrigado pelo interesse! Em um sistema real, sua solicitação de reserva seria processada e você receberia uma confirmação por e-mail.');
+            this.reset();
+        });
+        
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const subject = document.getElementById('contact-subject').value;
+            const message = document.getElementById('contact-message').value;
+            
+            if (!name || !email || !subject || !message) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                alert('Por favor, insira um e-mail válido.');
+                return;
+            }
+            
+            // Simulate form submission
+            alert('Obrigado por entrar em contato! Responderemos sua mensagem em breve.');
+            this.reset();
+        });
+        
+        document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = this.querySelector('input[type="email"]').value;
+            
+            if (!email) {
+                alert('Por favor, insira seu e-mail.');
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                alert('Por favor, insira um e-mail válido.');
+                return;
+            }
+            
+            // Simulate form submission
+            alert('Obrigado por se inscrever em nossa newsletter!');
+            this.reset();
+        });
+        
+        // View More Photos Button
+        document.getElementById('view-more-photos').addEventListener('click', function() {
+            alert('Em um site real, esta ação abriria uma galeria completa com mais fotos do flat.');
+        });
+    </script>
+</body>
+</html>
